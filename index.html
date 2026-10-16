@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>恋愛未来実験展 — 恋愛の悩みが解決された未来を、先に体験する。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --now-bg: #F5F1E4;
+    --now-ink: #2A2823;
+    --now-accent: #B8860B;
+    --now-line: #D9D2BC;
+
+    --future-bg: #0A0E17;
+    --future-ink: #E8ECF5;
+    --future-accent: #00E6B8;
+    --future-accent2: #6B7FFF;
+    --future-line: #232B3D;
+
+    /* 余白のリズム：セクション縦パディングをこの3段階だけで統一する */
+    --space-section-sm: 56px;
+    --space-section-md: 72px;
+    --space-section-lg: 96px;
+
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (min-width: 760px) {
+    :root {
+      --space-section-sm: 72px;
+      --space-section-md: 96px;
+      --space-section-lg: 120px;
+    }
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--now-bg);
+    color: var(--now-ink);
+    font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: "Space Grotesk", monospace; }
+  a { color: inherit; }
+  /* タップ領域：インタラクティブ要素は常にこの高さ以上を確保する */
+  a, button, .booth, .cta-button { min-height: 48px; }
+  /* キーボード操作時のフォーカスを可視化する（アクセシビリティ） */
+  a:focus-visible, button:focus-visible, .booth:focus-visible {
+    outline: 2px solid var(--future-accent2);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ===== top bar: project label + icon links ===== */
+  .proj-bar {
+    background: var(--now-bg);
+    border-bottom: 1px solid var(--now-line);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .proj-label {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--now-accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .proj-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .proj-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--now-line);
+    background: #FFFFFF;
+    color: var(--now-ink);
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  }
+  .proj-icon svg { width: 16px; height: 16px; display: block; }
+  .proj-icon:hover {
+    border-color: var(--now-accent);
+    background: var(--now-accent);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+  @media (max-width: 420px) {
+    .proj-label { font-size: 10.5px; }
+    .proj-icon { width: 32px; height: 32px; }
+    .proj-icon svg { width: 14px; height: 14px; }
+  }
+
+  /* ===== HERO: split ===== */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+  }
+  .hero-now, .hero-future {
+    padding: 72px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-now {
+    background: var(--now-bg);
+    color: var(--now-ink);
+    border-right: 1px solid var(--now-line);
+  }
+  .hero-future {
+    background: var(--future-bg);
+    color: var(--future-ink);
+    overflow: hidden;
+  }
+  .hero-future::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--future-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--future-line) 1px, transparent 1px);
+    background-size: 36px 36px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .hero-now .hero-label { color: var(--now-accent); }
+  .hero-future .hero-label { color: var(--future-accent); position: relative; z-index: 1; }
+
+  .hero-now h1, .hero-future h1 {
+    font-size: clamp(34px, 4.6vw, 54px);
+    line-height: 1.35;
+    font-weight: 900;
+    margin: 0;
+  }
+  .hero-future h1 { position: relative; z-index: 1; font-family: "Space Grotesk", sans-serif; letter-spacing: -0.01em; }
+
+  .hero-now p, .hero-future p {
+    margin-top: 24px;
+    font-size: 16px;
+    max-width: 38ch;
+  }
+  .hero-now p { color: #55503F; }
+  .hero-future p { color: #9BA6C4; position: relative; z-index: 1; }
+
+  .hero-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    position: relative; z-index: 1;
+  }
+  .hero-now .hero-meta div { border-top: 2px solid var(--now-accent); padding-top: 8px; color: var(--now-ink); }
+  .hero-future .hero-meta div { border-top: 2px solid var(--future-accent); padding-top: 8px; color: var(--future-ink); }
+  .hero-meta b { display: block; font-size: 15px; margin-top: 2px; font-family: "Space Grotesk", monospace; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-now { border-right: none; border-bottom: 1px solid var(--now-line); padding: 56px 24px; }
+    .hero-future { padding: 56px 24px; }
+  }
+
+  /* ===== overview band (WHAT/WHERE/WHEN/HOW) ===== */
+  .overview {
+    background: var(--now-bg);
+    border-bottom: 1px solid var(--now-line);
+    padding: var(--space-section-sm) 24px;
+  }
+  .overview-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .overview-item {
+    padding: 0 24px;
+    border-left: 1px solid var(--now-line);
+  }
+  .overview-item:first-child { border-left: none; padding-left: 0; }
+  .overview-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--now-accent);
+    margin-bottom: 8px;
+  }
+  .overview-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--now-ink);
+    line-height: 1.5;
+  }
+  .overview-sub {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: #817A66;
+    line-height: 1.6;
+  }
+  @media (max-width: 760px) {
+    .overview-inner { grid-template-columns: 1fr; gap: 24px; }
+    .overview-item { border-left: none; padding-left: 0; border-top: 1px solid var(--now-line); padding-top: 20px; }
+    .overview-item:first-child { border-top: none; padding-top: 0; }
+  }
+
+  /* ===== intro text ===== */
+  .intro {
+    padding: var(--space-section-md) 24px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .intro p { font-size: 17px; color: #4A4636; }
+  .intro p + p { margin-top: 18px; }
+
+  /* ===== catalog grid: 16 booths ===== */
+  .catalog {
+    padding: 0 24px var(--space-section-lg);
+  }
+  .catalog-head {
+    max-width: 1100px;
+    margin: 0 auto 36px;
+  }
+  .catalog-head .kicker {
+    font-family: "Space Grotesk", monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--future-accent2);
+    background: var(--future-bg);
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+  .catalog-head h2 {
+    font-size: clamp(24px, 3.2vw, 32px);
+    font-weight: 900;
+    margin: 0 0 12px;
+  }
+  .catalog-head p { color: #55503F; max-width: 60ch; }
+
+  .booth-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 2px;
+    background: var(--now-line);
+    border: 1px solid var(--now-line);
+  }
+  /* スマホでも最低2列は確保し、16件を延々1列スクロールさせない */
+  @media (max-width: 480px) {
+    .booth-grid { grid-template-columns: repeat(2, 1fr); }
+    .booth { padding: 16px 14px; min-height: 130px; }
+    .booth-title { font-size: 14px; }
+  }
+  .booth {
+    background: var(--now-bg);
+    padding: 22px 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: background 0.2s ease, transform 0.15s ease;
+    cursor: default;
+  }
+  .booth:hover { background: #ECE6D4; }
+  /* タップ時（スマホ）も、ホバー（PC）と同じ気づきを与える */
+  .booth:active { background: #E3DBC2; transform: scale(0.98); }
+  .booth--highlight {
+    background: var(--future-bg);
+    color: var(--future-ink);
+  }
+  .booth--highlight:hover, .booth--highlight:active { background: #10192B; }
+  .booth--highlight .booth-num { color: var(--future-accent); }
+  .booth--highlight .booth-tag { color: #9BA6C4; }
+  .booth-num {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    color: var(--now-accent);
+    letter-spacing: 0.05em;
+  }
+  .booth-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .booth-tag {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #8A8470;
+  }
+  .booth::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--future-accent2), var(--future-accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .booth:hover::after, .booth:active::after { transform: scaleX(1); }
+
+  /* ===== mission band (cyber) ===== */
+  .mission {
+    background: var(--future-bg);
+    color: var(--future-ink);
+    padding: var(--space-section-lg) 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mission::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--future-line) 1px, transparent 1px), linear-gradient(90deg, var(--future-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+  }
+  .mission-inner { max-width: 680px; margin: 0 auto; position: relative; }
+  .mission .kicker {
+    font-family: "Space Grotesk", monospace;
+    font-size: 13px;
+    color: var(--future-accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+  .mission h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(26px, 3.6vw, 36px);
+    line-height: 1.4;
+    margin: 0 0 20px;
+  }
+  .mission p { color: #9BA6C4; font-size: 16px; }
+  .mission p + p { margin-top: 14px; }
+
+  /* ===== final CTA ===== */
+  .final-cta {
+    background: var(--now-bg);
+    padding: var(--space-section-md) 24px;
+    text-align: center;
+    border-top: 1px solid var(--now-line);
+  }
+  .final-cta h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 900;
+    margin: 0 0 16px;
+  }
+  .final-cta p { color: #55503F; max-width: 48ch; margin: 0 auto 32px; }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--future-bg);
+    color: var(--future-ink);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px 32px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .cta-button:active { transform: translateY(0); }
+  .cta-button .mono { color: var(--future-accent); }
+
+  /* ===== footer ===== */
+  /* ===== floating ticket bar ===== */
+  .float-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 50;
+    background: var(--future-bg);
+    border-top: 1px solid var(--future-line);
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    transform: translateY(0);
+    transition: transform 0.25s ease;
+  }
+  .float-cta.is-hidden { transform: translateY(100%); }
+  .float-cta-text {
+    color: var(--future-ink);
+    font-size: 13px;
+    display: none;
+  }
+  .float-cta-text b { color: var(--future-accent); font-family: "Space Grotesk", monospace; }
+  .float-cta .cta-button {
+    padding: 12px 28px;
+    font-size: 14px;
+    box-shadow: none;
+    width: 100%;
+    max-width: 420px;
+    justify-content: center;
+  }
+  @media (min-width: 560px) {
+    .float-cta-text { display: block; }
+    .float-cta .cta-button { width: auto; }
+  }
+
+  footer {
+    padding: 56px 24px calc(56px + 76px + env(safe-area-inset-bottom, 0px));
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  footer .org { font-size: 13px; color: #8A8470; }
+  footer .note { margin-top: 16px; font-size: 12.5px; color: #8A8470; max-width: 62ch; }
+</style>
+</head>
+<body>
+
+<div class="proj-bar">
+  <span class="proj-label">LOVE ANALYSIS PROJECT</span>
+  <div class="proj-icons">
+    <a class="proj-icon" href="https://tokyo-love-analytics.web.app/" target="_blank" rel="noopener" aria-label="恋テスト（本体）を開く">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </a>
+    <a class="proj-icon" href="https://www.instagram.com/yu_love.analysis.pro/" target="_blank" rel="noopener" aria-label="公式Instagramを開く">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a class="proj-icon" href="https://100banch.com/projects/love-analysis-project" target="_blank" rel="noopener" aria-label="100BANCHプロジェクトページを開く">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg>
+    </a>
+  </div>
+</div>
+
+<section class="hero" aria-label="いまの恋愛と、解決された未来の対比">
+  <div class="hero-now">
+    <div class="hero-label">NOW</div>
+    <h1>いまの恋愛は、<br>悩みの数だけある。</h1>
+    <p>
+      都合のいい人になる。返信が来ない。気持ちが冷める。
+      いまの恋愛には、まだ名前のついていない悩みがたくさんある。
+    </p>
+    <div class="hero-meta">
+      <div>開催<b class="mono">2026.11.15 (Sun)</b></div>
+      <div>会場<b class="mono">渋谷・原宿</b></div>
+      <div>入場料<b class="mono">500円</b></div>
+    </div>
+  </div>
+  <div class="hero-future">
+    <div class="hero-label">FUTURE</div>
+    <h1>もしも、悩みがぜんぶ<br>解決された未来があるなら。</h1>
+    <p>
+      その未来の恋愛を、先に体験してみませんか。
+      愛着理論や矛盾検知など、心理学とAIで恋愛観を可視化するツールを、悩みごとに用意しました。
+    </p>
+    <div class="hero-meta">
+      <div>診断<b class="mono">63 QUESTIONS</b></div>
+      <div>ブース<b class="mono">16 THEMES</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="overview" aria-label="開催概要">
+  <div class="overview-inner">
+    <div class="overview-item">
+      <div class="overview-label mono">WHAT</div>
+      <div class="overview-value">体験型展示「恋愛未来実験展」</div>
+      <div class="overview-sub">16の悩みに対応するツールが並ぶブースを歩き、気になるものに自由に触れる展示。最後に、診断結果をもとにしたマッチングの仕掛け「ラストミッション」があります。</div>
+    </div>
+    <div class="overview-item">
+      <div class="overview-label mono">WHERE</div>
+      <div class="overview-value">レンタルスタジオ渋谷・原宿</div>
+      <div class="overview-sub">渋谷駅から徒歩8分。詳しいアクセスはチケットページでご確認ください。</div>
+    </div>
+    <div class="overview-item">
+      <div class="overview-label mono">WHEN</div>
+      <div class="overview-value">2026年11月15日(日)<br>12:30 - 18:00</div>
+      <div class="overview-sub">入れ替わりでの来場を想定しています。</div>
+    </div>
+    <div class="overview-item">
+      <div class="overview-label mono">HOW</div>
+      <div class="overview-value">入場料500円（当日払い）</div>
+      <div class="overview-sub">当日、受付で入場料をお支払いいただくと、会場で恋テストv2（オンライン診断）にアクセスできます。診断結果はそのままラストミッションで使われます。</div>
+    </div>
+  </div>
+</section>
+
+<div class="intro">
+  <p>
+    恋愛がうまくいかない理由は、人それぞれ違う。
+    都合のいい人になってしまう。相手の気持ちが分からない。
+    蛙化してしまう。出会いの質を上げたい。
+  </p>
+  <p>
+    それぞれの悩みに、ひとつずつ向き合うツールを置きました。
+    見るだけでもいい。試してみれば、もっといい。
+  </p>
+</div>
+
+<section class="catalog" aria-labelledby="catalog-heading">
+  <div class="catalog-head">
+    <div class="kicker">CATALOG</div>
+    <h2 id="catalog-heading">16の悩み、16のブース</h2>
+    <p>会場を歩くだけで、自分がどの悩みに当てはまるか見えてくる。気になったブースのQRから、その場で試せます。</p>
+  </div>
+  <div class="booth-grid" id="booths"></div>
+</section>
+
+<section class="mission" aria-labelledby="mission-heading">
+  <div class="mission-inner">
+    <div class="kicker">LAST MISSION</div>
+    <h2 id="mission-heading">会場を出る前に、<br>ひとつだけ任務がある。</h2>
+    <p>
+      会場で受けた診断をもとに、相性のいい誰かを一人、紹介します。
+      話しかける理由は、もう用意してあります。
+    </p>
+    <p>
+      「相性がいいと言われたので」——それだけで、十分なきっかけになる。
+    </p>
+    <p>
+      ブース16「恋テストv2」が、その入口です。当日、入場料をお支払いいただいた方に診断用のQRをお渡しします。
+    </p>
+  </div>
+</section>
+
+<section class="final-cta" aria-labelledby="cta-heading">
+  <h2 id="cta-heading">11月15日、渋谷・原宿であなたをお待ちしています。</h2>
+  <p>
+    参加にはチケット（無料）が必要です。入場料（500円）は当日会場でのお支払いとなります。
+    恋テストv2は当日会場でのみ受けられ、その結果がそのままラストミッションにつながります。
+  </p>
+  <a class="cta-button" href="https://peatix.com/event/5226768" target="_blank" rel="noopener" aria-label="チケットを取得する（Peatixのページへ移動します）">
+    チケットを取得する <span class="mono">→</span>
+  </a>
+</section>
+
+<div class="float-cta" id="floatCta">
+  <span class="float-cta-text">11/15(日) 渋谷・原宿 <b class="mono">¥500</b></span>
+  <a class="cta-button" href="https://peatix.com/event/5226768" target="_blank" rel="noopener" aria-label="チケットを取得する（Peatixのページへ移動します）">
+    チケットを取得する <span class="mono">→</span>
+  </a>
+</div>
+
+<footer>
+  <div class="org">主催：Love Analysis Project（100BANCH採択プロジェクト）</div>
+  <p class="note">
+    本ページは企画のご紹介用です。最新情報・お申込みはPeatixのチケットページでご確認ください。
+  </p>
+</footer>
+
+<script>
+const booths = [
+  { num: "01", title: "都合のいい人になってしまう", tag: "気づき・警告" },
+  { num: "02", title: "思わせぶりに振り回される", tag: "気づき・警告" },
+  { num: "03", title: "友達止まりになってしまう", tag: "アプローチ" },
+  { num: "04", title: "自信がなくてアプローチできない", tag: "アプローチ" },
+  { num: "05", title: "同じコミュニティの人を好きになる", tag: "関係性把握" },
+  { num: "06", title: "タイミングが合わない", tag: "関係性把握" },
+  { num: "07", title: "身体の関係が先の相手を好きになる", tag: "判断・整理" },
+  { num: "08", title: "好きかどうか分からない", tag: "判断・整理" },
+  { num: "09", title: "元恋人が忘れられない", tag: "ケア・回復" },
+  { num: "10", title: "素の自分を出せない", tag: "空間・体験" },
+  { num: "11", title: "蛙化してしまう", tag: "ケア・回復" },
+  { num: "12", title: "浮気された", tag: "ケア・回復" },
+  { num: "13", title: "2回目のデートに踏み出せない", tag: "アプローチ" },
+  { num: "14", title: "返信が返ってこない", tag: "判断・整理" },
+  { num: "15", title: "冷める瞬間がある", tag: "判断・整理" },
+  { num: "16", title: "恋テストv2を受ける（当日会場限定・ラストミッションへ）", tag: "恋テストv2" },
+];
+const grid = document.getElementById("booths");
+booths.forEach(b => {
+  const el = document.createElement("div");
+  el.className = "booth" + (b.num === "16" ? " booth--highlight" : "");
+  el.setAttribute("tabindex", "0");
+  el.innerHTML = `<div class="booth-num mono">BOOTH ${b.num}</div>
+    <div class="booth-title">${b.title}</div>
+    <div class="booth-tag">${b.tag}</div>`;
+  grid.appendChild(el);
+});
+
+// floating ticket bar: hide once the final CTA section (same button) is in view
+const floatCta = document.getElementById("floatCta");
+const finalCtaSection = document.querySelector(".final-cta");
+if (floatCta && finalCtaSection && "IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      floatCta.classList.toggle("is-hidden", entry.isIntersecting);
+    });
+  }, { rootMargin: "0px 0px -10% 0px" });
+  io.observe(finalCtaSection);
+}
+</script>
+
+</body>
+</html>
