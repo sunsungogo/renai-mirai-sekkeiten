@@ -262,6 +262,12 @@
     margin: 0 0 12px;
   }
   .catalog-head p { color: #55503F; max-width: 60ch; }
+  .catalog-note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #8A8470;
+    max-width: 60ch;
+  }
 
   .booth-grid {
     max-width: 1100px;
@@ -275,13 +281,13 @@
   /* スマホでも最低2列は確保し、16件を延々1列スクロールさせない */
   @media (max-width: 480px) {
     .booth-grid { grid-template-columns: repeat(2, 1fr); }
-    .booth { padding: 16px 14px; min-height: 130px; }
+    .booth { padding: 16px 14px; min-height: 148px; }
     .booth-title { font-size: 14px; }
   }
   .booth {
     background: var(--now-bg);
     padding: 22px 20px;
-    min-height: 150px;
+    min-height: 168px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -311,6 +317,13 @@
     margin-top: 10px;
     line-height: 1.5;
   }
+  .booth-desc {
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #55503F;
+  }
+  .booth--highlight .booth-desc { color: #9BA6C4; }
   .booth-tag {
     margin-top: 14px;
     font-size: 12px;
@@ -359,6 +372,31 @@
   }
   .mission p { color: #9BA6C4; font-size: 16px; }
   .mission p + p { margin-top: 14px; }
+
+  /* ===== about band (now) ===== */
+  .about {
+    background: var(--now-bg);
+    padding: var(--space-section-md) 24px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .about .kicker {
+    font-family: "Space Grotesk", monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--future-accent2);
+    background: var(--future-bg);
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+  .about h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 900;
+    margin: 0 0 16px;
+  }
+  .about p { font-size: 16px; color: #4A4636; }
+  .about p + p { margin-top: 14px; }
 
   /* ===== final CTA ===== */
   .final-cta {
@@ -523,6 +561,8 @@
     <div class="kicker">CATALOG</div>
     <h2 id="catalog-heading">16の悩み、16のブース</h2>
     <p>会場を歩くだけで、自分がどの悩みに当てはまるか見えてくる。気になったブースのQRから、その場で試せます。</p>
+    <p class="catalog-note">愛着スタイル診断・愛の言語テスト・ふたり相性比較モードは、11月15日の展示当日に新しく追加される予定です。</p>
+    <p class="catalog-note">※ブースの内容・件数は、予告なく変更になる場合があります。</p>
   </div>
   <div class="booth-grid" id="booths"></div>
 </section>
@@ -542,6 +582,19 @@
       ブース16「恋テストv2」が、その入口です。当日、入場料をお支払いいただいた方に診断用のQRをお渡しします。
     </p>
   </div>
+</section>
+
+<section class="about" aria-labelledby="about-heading">
+  <div class="kicker">ABOUT US</div>
+  <h2 id="about-heading">Love Analysis Projectについて</h2>
+  <p>
+    私たちは、恋愛を分析・実験し、納得した恋愛を選べる社会を目指す学生発のプロジェクトです。
+    「恋愛を、自己分析と同じくらい真剣に考える文化をつくる」ことを目標に、価値観や愛着スタイルを可視化する診断ツールを開発しています。
+  </p>
+  <p>
+    2026年8月、パナソニックグループが支援する次世代リーダー発掘プログラム「100BANCH」のGARAGE Programに採択されました。
+    今回の「恋愛未来実験展」も、その実験のひとつです。
+  </p>
 </section>
 
 <section class="final-cta" aria-labelledby="cta-heading">
@@ -573,20 +626,20 @@
 const booths = [
   { num: "01", title: "都合のいい人になってしまう", tag: "気づき・警告" },
   { num: "02", title: "思わせぶりに振り回される", tag: "気づき・警告" },
-  { num: "03", title: "友達止まりになってしまう", tag: "アプローチ" },
+  { num: "03", title: "友達止まりになってしまう", tag: "アプローチ", desc: "AIと話しながら「友達以上恋人未満」からの抜け出し方を探る対話ツール。展示当日のみ稼働。" },
   { num: "04", title: "自信がなくてアプローチできない", tag: "アプローチ" },
-  { num: "05", title: "同じコミュニティの人を好きになる", tag: "関係性把握" },
-  { num: "06", title: "タイミングが合わない", tag: "関係性把握" },
+  { num: "05", title: "同じコミュニティの人を好きになる", tag: "関係性把握", desc: "10問のYes/Noで、告白のタイミングをGO／PREP／CAUTION／WAITの4段階で診断。" },
+  { num: "06", title: "タイミングが合わない", tag: "関係性把握", desc: "16問の回答を温度計アニメーションで可視化し、関係の現在地をICE〜HOTの4段階で診断。" },
   { num: "07", title: "身体の関係が先の相手を好きになる", tag: "判断・整理" },
-  { num: "08", title: "好きかどうか分からない", tag: "判断・整理" },
+  { num: "08", title: "好きかどうか分からない", tag: "判断・整理", desc: "告白する／しないの迷いをAIと一緒に整理する対話ツール。展示当日のみ稼働。" },
   { num: "09", title: "元恋人が忘れられない", tag: "ケア・回復" },
-  { num: "10", title: "素の自分を出せない", tag: "空間・体験" },
-  { num: "11", title: "蛙化してしまう", tag: "ケア・回復" },
-  { num: "12", title: "浮気された", tag: "ケア・回復" },
+  { num: "10", title: "素の自分を出せない", tag: "空間・体験", desc: "お題カードをめくって答える対話ゲーム。段階的な質問で、自然に心を開く設計。" },
+  { num: "11", title: "蛙化してしまう", tag: "ケア・回復", desc: "15のシナリオ診断で、自分の蛙化タイプと背景にある思い込みのクセを可視化。" },
+  { num: "12", title: "浮気された", tag: "ケア・回復", desc: "9問に答えて、今の自分がどの失恋フェーズにいるかを診断し、次のケアを提案。" },
   { num: "13", title: "2回目のデートに踏み出せない", tag: "アプローチ" },
-  { num: "14", title: "返信が返ってこない", tag: "判断・整理" },
-  { num: "15", title: "冷める瞬間がある", tag: "判断・整理" },
-  { num: "16", title: "恋テストv2を受ける（当日会場限定・ラストミッションへ）", tag: "恋テストv2" },
+  { num: "14", title: "返信が返ってこない", tag: "判断・整理", desc: "8つのシグナルをチェックし、総合スコアと「なぜそう見えるか」のバイアス解説を表示。" },
+  { num: "15", title: "冷める瞬間がある", tag: "判断・整理", desc: "8本のスライダーで、一時的な「仮性冷め」と根本的な「真性冷め」をリアルタイムに可視化。" },
+  { num: "16", title: "恋テストv2を受ける（当日会場限定・ラストミッションへ）", tag: "恋テストv2", desc: "63問の本診断。当日会場限定で受けられ、結果がそのままラストミッションにつながります。" },
 ];
 const grid = document.getElementById("booths");
 booths.forEach(b => {
@@ -595,6 +648,7 @@ booths.forEach(b => {
   el.setAttribute("tabindex", "0");
   el.innerHTML = `<div class="booth-num mono">BOOTH ${b.num}</div>
     <div class="booth-title">${b.title}</div>
+    ${b.desc ? `<div class="booth-desc">${b.desc}</div>` : ""}
     <div class="booth-tag">${b.tag}</div>`;
   grid.appendChild(el);
 });
